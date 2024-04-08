@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoção</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:first-child {
+            font-weight: bold;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        input[type="number"] {
+            width: 30px;
+        }
+        #imagem_principal {
+            max-width: 350px;
+            max-height: 280px;
+        }
+        body{
+            background-color: cadetblue;
+        }
+
+
+        #resposta{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <img id="imagem_principal" src="img1.png" alt="Imagem principal">
+    <br>
+    <h1>Promoção</h1>
+    <br>
+    <table>
+        <tr>
+            <th>Produtos</th>
+            <th>Preços</th>
+            <th>Desconto</th>
+        </tr>
+        <tr>
+            <td>Camiseta Branca</td>
+            <td>R$ <span id="preco1">70</span></td>
+            <td><input type="number" id="desconto1" name="desconto" value="10"></td>
+        </tr>
+        <tr>
+            <td>Calça Jeans</td>
+            <td>R$ <span id="preco2">120</span></td>
+            <td><input type="number" id="desconto2" name="desconto" value="10"></td>
+        </tr>
+        <tr>
+            <td>Camisa colorida manga longa</td>
+            <td>R$ <span id="preco3">80</span></td>
+            <td><input type="number" id="desconto3" name="desconto" value="10"></td>
+        </tr>
+    </table>
+    <br>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <!-- Elemento para exibir a resposta -->
+    <div id="resposta"></div>
+
+    <script>
+        let imagens = ['img2.jpg', 'img3.png', 'img4.png'];
+        let indiceAtual = 0;
+        let contadorImagens = 0;
+
+        function trocarImagem() {
+            document.getElementById('imagem_principal').src = imagens[indiceAtual];
+            indiceAtual = (indiceAtual + 1) % imagens.length;
+            contadorImagens++;
+            if (contadorImagens >= imagens.length * 2) {
+                contadorImagens = 0; // Reinicia o contador de imagens
+                clearInterval(intervaloImagens); // Interrompe o intervalo atual
+                intervaloImagens = setInterval(trocarImagem, 2000); // Inicia um novo intervalo
+            }
+        }
+
+        let intervaloImagens = setInterval(trocarImagem, 2000);
+
+        function calcular() {
+            let preco1 = parseFloat(document.getElementById('preco1').textContent);
+            let preco2 = parseFloat(document.getElementById('preco2').textContent);
+            let preco3 = parseFloat(document.getElementById('preco3').textContent);
+
+            let descontos = document.getElementsByName('desconto');
+            let desconto1 = parseFloat(descontos[0].value);
+            let desconto2 = parseFloat(descontos[1].value);
+            let desconto3 = parseFloat(descontos[2].value);
+
+            let precoComDesconto1 = preco1 - (preco1 * desconto1 / 100);
+            let precoComDesconto2 = preco2 - (preco2 * desconto2 / 100);
+            let precoComDesconto3 = preco3 - (preco3 * desconto3 / 100);
+
+            // Exibir a resposta na tela
+            let resposta = document.getElementById('resposta');
+            resposta.innerHTML = `
+                <p class="preco-com-desconto">Preço com desconto para Camiseta Branca: R$ ${precoComDesconto1.toFixed(2)}</p>
+                <p class="preco-com-desconto">Preço com desconto para Calça Jeans: R$ ${precoComDesconto2.toFixed(2)}</p>
+                <p class="preco-com-desconto">Preço com desconto para Camisa colorida manga longa: R$ ${precoComDesconto3.toFixed(2)}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
